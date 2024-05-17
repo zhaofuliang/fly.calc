@@ -97,16 +97,21 @@
         let saleNumber = document.getElementById('saleNumber').value
         let total = currentPrice * currentNumber * 100
         let sale = salePrice * saleNumber * 100
-        let tip = sale * (0.05 / 100) //印花税
-        let sale_finally = sale - tip - 5
+        let tip = (sale * (0.05 / 100)).toFixed(2)//印花税
+        //计算佣金
+        let commission = (sale * (0.2354 / 1000)).toFixed(2)
+        if (commission < 5) {
+            commission = 5
+        }
+        let sale_finally = sale - tip - commission
         let result = (total - sale_finally) / (currentNumber - saleNumber) / 100
-        console.log('\t' + result)
+        let res = result.toFixed(3)
+        console.log('\t' + res)
         document.getElementById('currentPrice').value = currentPrice
         document.getElementById('currentNumber').value = currentNumber
         document.getElementById('salePrice').value = salePrice
         document.getElementById('saleNumber').value = saleNumber
-        document.getElementById('result').value = result
-
+        document.getElementById('result').value = res
     }
 
     function back() {
