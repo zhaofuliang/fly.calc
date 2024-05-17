@@ -95,9 +95,12 @@
         let currentNumber = document.getElementById('currentNumber').value
         let salePrice = document.getElementById('salePrice').value
         let saleNumber = document.getElementById('saleNumber').value
-        let total = currentPrice * currentNumber
-        let sale = salePrice * saleNumber
-        let result = (total - sale) / (currentNumber - saleNumber)
+        let total = currentPrice * currentNumber * 100
+        let sale = salePrice * saleNumber * 100
+        let tip = sale * (0.05 / 100) //印花税
+        let sale_finally = sale - tip - 5
+        let result = (total - sale_finally) / (currentNumber - saleNumber) / 100
+        console.log('\t' + result)
         document.getElementById('currentPrice').value = currentPrice
         document.getElementById('currentNumber').value = currentNumber
         document.getElementById('salePrice').value = salePrice
