@@ -75,6 +75,11 @@
                 <!--            <h1>999</h1>-->
                 <dl>
                     <!--                <dt>计算:</dt>-->
+                    <dd>
+                        <input type='radio' id="hu" name="market" value="0"/>沪市
+                        <input type='radio' id="shen" name="market" value="1"/>深市
+                    </dd>
+
                     <dd>1：持有价格：<input type='text' id="currentPrice"/></dd>
                     <dd>2：持有手数：<input type=text id="currentNumber"></dd>
                     <dd>3：卖出价格：<input type='text' id="salePrice"/></dd>
@@ -91,6 +96,8 @@
 </div>
 <script>
     function calc() {
+        let status = document.getElementById('hu').checked
+
         let currentPrice = document.getElementById('currentPrice').value
         let currentNumber = document.getElementById('currentNumber').value
         let salePrice = document.getElementById('salePrice').value
@@ -103,7 +110,17 @@
         if (commission < 5) {
             commission = 5
         }
-        let sale_finally = sale - tip - commission
+        //过户费用 沪市=成交金额*0.001% 深市包含在交易规费中
+        let transfer
+        if (status) {
+            transfer = (sale * (0.001 / 100)).toFixed(2)
+            // console.log(transfer)
+        } else {
+            transfer = 0
+        }
+
+        //卖出：印花税+佣金+过户费 佣金不足5元收取5元 沪市有过户费 深市无
+        let sale_finally = sale - tip - commission - transfer
         let result = (total - sale_finally) / (currentNumber - saleNumber) / 100
         let res = result.toFixed(3)
         // console.log('\t' + res)
